@@ -56,7 +56,7 @@ const ModalComponent: FC<any> = ({ isOpen, onClose }) => {
 
 const ModalContent: FC<any> = ({ onClose }) => {
   const canvasRef = useRef<any>(null);
-  let signaturepad;
+  let signaturepad: any;
 
   useEffect(() => {
     if (canvasRef.current) {

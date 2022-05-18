@@ -6,10 +6,10 @@ import DocumentsView from "./DocumentsView";
 import Toolbar from "./Toolbar";
 import { IContent } from "../types/IContent";
 
-let jsPDF;
+let jsPDF: any;
 
 if (typeof window !== "undefined") {
-  jsPDF = require("jsPDF");
+  jsPDF = require("jspdf");
 }
 
 const DOCUMENT_PATH = "/doc.pdf";

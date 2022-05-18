@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import styled from "styled-components";
 import styledTS from "styled-components-ts";
 import { ICoords } from "../../types/ICoords";
@@ -11,7 +11,7 @@ const TextAreaStyle = styledTS<ICoords>(styled.textarea)`
   ${({ x, y }) => `transform: translate3d(${x}px, ${y}px, 0);`};
 `;
 
-const TextArea = ({ index, x, y, textAreaRef, onBlur }) => {
+const TextArea: FC<any> = ({ index, x, y, textAreaRef, onBlur }) => {
   const handleClick = (e: MouseEvent) => {
     e.stopPropagation();
   };

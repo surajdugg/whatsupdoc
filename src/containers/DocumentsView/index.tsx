@@ -12,7 +12,7 @@ const DocumentViewer: FC<any> = ({
 }) => {
   const [numPages, setNumPages] = useState(null);
 
-  const handleDocumentLoadSuccess = ({ numPages }) => {
+  const handleDocumentLoadSuccess = ({ numPages }: any) => {
     setNumPages(numPages);
   };
 

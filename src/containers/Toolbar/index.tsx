@@ -30,7 +30,7 @@ const Toolbar: FC<any> = ({
   </ToolbarWrapper>
 );
 
-const Tool = ({ Icon, active, index, onOpen, onSetActiveTool }) => {
+const Tool: FC<any> = ({ Icon, active, index, onOpen, onSetActiveTool }) => {
   const handleSetActiveTool = () => {
     onSetActiveTool(index);
 

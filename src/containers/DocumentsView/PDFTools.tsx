@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { FC, useState, useRef } from "react";
 import styled from "styled-components";
 import styledTS from "styled-components-ts";
 import { ICoords } from "../../types/ICoords";
@@ -30,7 +30,12 @@ const ContentWrapper = styledTS<{ activeTool: number }>(styled.div)`
   }};
 `;
 
-const PDFContentTools = ({ activeTool, index, content, onContent }) => {
+const PDFContentTools: FC<any> = ({
+  activeTool,
+  index,
+  content,
+  onContent,
+}) => {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const [clickCoords, setClickCoords] = useState<IClickCoordsState>(undefined);
 
@@ -59,10 +64,7 @@ const PDFContentTools = ({ activeTool, index, content, onContent }) => {
     }
 
     if (activeTool === 2) {
-      onContent([
-        ...content,
-        { index, x, y, path: "http://localhost:3000/svg/check.svg" },
-      ]);
+      onContent([...content, { index, x, y, path: "/svg/check.svg" }]);
     }
   };
 
@@ -77,7 +79,7 @@ const PDFContentTools = ({ activeTool, index, content, onContent }) => {
   return (
     <ContentWrapper activeTool={activeTool} onClick={handleClick}>
       <CreatedContent
-        content={content.filter((item) => item.index === index)}
+        content={content.filter((item: any) => item.index === index)}
       />
       {clickCoords && activeTool === 0 && (
         <TextArea

@@ -5,7 +5,7 @@ import Sidebar, { PageCardStyle } from "./Styles";
 const SidebarView: FC<any> = ({ activePage, docPath, onScrollTo }) => {
   const [numPages, setNumPages] = useState(null);
 
-  const handleDocumentLoadSuccess = ({ numPages }) => {
+  const handleDocumentLoadSuccess = ({ numPages }: any) => {
     setNumPages(numPages);
   };
 
@@ -26,7 +26,7 @@ const SidebarView: FC<any> = ({ activePage, docPath, onScrollTo }) => {
   );
 };
 
-const PageCard = ({ index, isActive, pageNumber, onScrollTo }) => {
+const PageCard: FC<any> = ({ index, isActive, pageNumber, onScrollTo }) => {
   const handleScrollTo = () => {
     onScrollTo(index);
   };
