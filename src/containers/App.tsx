@@ -27,48 +27,65 @@ const App = () => {
         mainRef.current.children[1].firstChild.children
       );
       const lastIndex = allCanvases.length - 1;
-      const pdf = new jsPDF();
+      const pdf = new jsPDF("p", "px", [
+        (allCanvases[0] as any).offsetWidth,
+        (allCanvases[0] as any).offsetHeight,
+      ]);
 
       allCanvases.forEach((item: any, index) => {
         const isLast = index === lastIndex;
         const canvas = item.getElementsByTagName("canvas")[0];
         const canvasCopy = document.createElement("canvas");
+
+        const scale = canvas.width / canvas.parentElement.offsetWidth;
+
         canvasCopy.width = canvas.width;
         canvasCopy.height = canvas.height;
         const pageContent = content.filter((item: any) => item.index === index);
         const ctx = canvasCopy.getContext("2d");
         ctx.drawImage(canvas, 0, 0);
 
+        const width = pdf.internal.pageSize.getWidth();
+        const height = pdf.internal.pageSize.getHeight();
+
         if (pageContent.length) {
           pageContent.forEach((item: any) => {
             if (item.text) {
-              ctx.font = "16px/1.1 helvetica";
-              ctx.fillText(item.text, item.x - 1, item.y + 13);
+              ctx.font = `${16 * scale}px/1.1 helvetica`;
+              ctx.fillText(
+                item.text,
+                (item.x - 1) * scale,
+                (item.y + 13) * scale
+              );
             }
 
             if (item.path && item.type === "signature") {
               // TODO: Signature w/h should not be hardcoded
+              const signature = document.getElementById("Signature") as any;
+
               ctx.drawImage(
-                document.getElementById("Signature") as any,
-                item.x,
-                item.y,
-                350,
-                125
+                signature,
+                item.x * scale,
+                item.y * scale,
+                350 * scale,
+                125 * scale
               );
             }
 
             if (item.path && item.type === "checkmark") {
+              const checkmark = document.getElementById("Checkmark") as any;
+
               ctx.drawImage(
-                document.getElementById("Checkmark") as any,
-                item.x,
-                item.y
+                checkmark,
+                item.x * scale,
+                item.y * scale,
+                checkmark.width * scale,
+                checkmark.height * scale
               );
             }
           });
         }
 
-        const width = pdf.internal.pageSize.getWidth();
-        const height = pdf.internal.pageSize.getHeight();
         pdf.addImage(canvasCopy, "PNG", 0, 0, width, height);
 
         if (!isLast) {
