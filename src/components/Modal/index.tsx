@@ -92,7 +92,10 @@ const ModalContent: FC<any> = ({ onClose }) => {
   return (
     <>
       <Title>
-        <h2>Signature</h2>
+        <div>
+          <h2>Signature</h2>
+          <p>Select a signature or create a new one</p>
+        </div>
         <RiCloseLine onClick={onClose} />
       </Title>
       {!signatures.length || signatureOpen ? (
