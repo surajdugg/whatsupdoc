@@ -9,21 +9,33 @@ interface ICreatedContentProps {
   activeTool: number;
 }
 
-const ContentNode = styledTS<ICoords>(styled.div)`
+const ContentNode = styledTS<ICoords & { type: string }>(styled.div)`
   ${({ x, y }) => `transform: translate3d(${x}px, ${y}px, 0);`};
   display: inline-block;
   position: absolute;
+
+  ${({ type }) => {
+    if (type === "signature") {
+      return `
+        img {
+          max-width: 50%
+        }
+      `;
+    }
+
+    if (type === "checkmark") {
+      return `pointer-events: none`;
+    }
+  }};
 `;
 
 const CreatedContent: FC<ICreatedContentProps> = ({ content, activeTool }) => {
   return (
     <>
       {content.map(({ text, type, path, x, y }: IContent, index: number) => (
-        <ContentNode key={index} x={x} y={y}>
+        <ContentNode key={index} type={type} x={x} y={y}>
           {text && type === "text" && text}
-          {path && type === "signature" && (
-            <img id="Signature" style={{ maxWidth: "50%" }} src={path} />
-          )}
+          {path && type === "signature" && <img id="Signature" src={path} />}
           {path && type === "checkmark" && <img id="Checkmark" src={path} />}
         </ContentNode>
       ))}
