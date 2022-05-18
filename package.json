@@ -1,0 +1,8 @@
+{
+  "name": "document-sign",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@bitbucket.org:pixelmatter/document-sign.git",
+  "author": "michael aubry <michaelaubry1991@gmail.com>",
+  "license": "MIT"
+}
