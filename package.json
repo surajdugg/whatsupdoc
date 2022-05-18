@@ -1,8 +1,15 @@
 {
-  "name": "document-sign",
-  "version": "1.0.0",
-  "main": "index.js",
-  "repository": "git@bitbucket.org:pixelmatter/document-sign.git",
-  "author": "michael aubry <michaelaubry1991@gmail.com>",
-  "license": "MIT"
+  "name": "learn-starter",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "next": "9.3.5",
+    "react": "16.13.1",
+    "react-dom": "16.13.1"
+  }
 }
