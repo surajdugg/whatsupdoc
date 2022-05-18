@@ -52,6 +52,11 @@ const PDFContentTools: FC<any> = ({
     }
 
     if (activeTool === 1) {
+      const signatures = JSON.parse(localStorage.getItem("signatures"));
+      const selectedSignature = JSON.parse(
+        localStorage.getItem("selectedSignature")
+      );
+
       onContent([
         ...content,
         {
@@ -59,7 +64,7 @@ const PDFContentTools: FC<any> = ({
           x,
           y: y - 50,
           type: "signature",
-          path: localStorage.getItem("signature"),
+          path: signatures[selectedSignature],
         },
       ]);
     }

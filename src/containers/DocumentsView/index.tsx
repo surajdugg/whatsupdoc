@@ -19,7 +19,7 @@ const DocumentViewer: FC<any> = ({
   return (
     <PDFWrapper>
       <Document file={docPath} onLoadSuccess={handleDocumentLoadSuccess}>
-        {Array.from(new Array(numPages), (el, index) => (
+        {Array.from(new Array(numPages), (_, index) => (
           <PageWrapper key={`page_${index + 1}`}>
             <PageComponent pageNumber={index + 1} />
             <PDFTools

@@ -17,6 +17,7 @@ const ContentNode = styledTS<ICoords & { type: string }>(styled.div)`
   ${({ type }) => {
     if (type === "signature") {
       return `
+        pointer-events: none;
         img {
           max-width: 50%
         }

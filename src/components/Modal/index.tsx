@@ -45,7 +45,7 @@ const SignatureButtons = styled.div`
   }
 `;
 
-const SignatureCard = styled.div`
+const SignatureCardStyle = styled.div`
   cursor: pointer;
   border: 1px solid var(--border-color);
   border-radius: 4px;
@@ -80,11 +80,10 @@ const ModalComponent: FC<any> = ({ isOpen, onClose }) => {
 };
 
 const ModalContent: FC<any> = ({ onClose }) => {
-  const savedSignatures = localStorage.getItem("signatures")
+  const signatures = localStorage.getItem("signatures")
     ? JSON.parse(localStorage.getItem("signatures"))
     : [];
   const [signatureOpen, setSignatureOpen] = useState<boolean>(false);
-  const [signatures, setSignatures] = useState<string[]>(savedSignatures);
 
   const openSignatureView = () => {
     setSignatureOpen(true);
@@ -97,20 +96,17 @@ const ModalContent: FC<any> = ({ onClose }) => {
         <RiCloseLine onClick={onClose} />
       </Title>
       {!signatures.length || signatureOpen ? (
-        <Signature
-          signatures={signatures}
-          onSetSignatures={setSignatures}
-          onClose={onClose}
-        />
+        <SigPad signatures={signatures} onClose={onClose} />
       ) : (
         <>
           <SignaturesWrap>
-            {signatures.map((signature, index) => (
-              <SignatureCol>
-                <SignatureCard key={index} onClick={onClose}>
-                  <img src={signature} />
-                </SignatureCard>
-              </SignatureCol>
+            {signatures.map((signature: any, index: number) => (
+              <SignatureCard
+                key={index}
+                index={index}
+                signature={signature}
+                onClose={onClose}
+              />
             ))}
           </SignaturesWrap>
           <SignatureButtons>
@@ -124,7 +120,7 @@ const ModalContent: FC<any> = ({ onClose }) => {
   );
 };
 
-const Signature: FC<any> = ({ signatures, onSetSignatures, onClose }) => {
+const SigPad: FC<any> = ({ signatures, onClose }) => {
   const canvasRef = useRef<any>(null);
   let signaturepad: any;
 
@@ -161,6 +157,21 @@ const Signature: FC<any> = ({ signatures, onSetSignatures, onClose }) => {
         <Button onClick={handleFinishSignature}>Finish</Button>
       </SignatureButtons>
     </>
+  );
+};
+
+const SignatureCard: FC<any> = ({ signature, index, onClose }) => {
+  const handleSelectSignature = () => {
+    localStorage.setItem("selectedSignature", index);
+    onClose();
+  };
+
+  return (
+    <SignatureCol>
+      <SignatureCardStyle onClick={handleSelectSignature}>
+        <img src={signature} />
+      </SignatureCardStyle>
+    </SignatureCol>
   );
 };
 
