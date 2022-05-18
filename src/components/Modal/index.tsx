@@ -148,7 +148,7 @@ const SigPad: FC<any> = ({ signatures, onClose }) => {
   return (
     <>
       <SignatureWrapper>
-        <canvas ref={canvasRef} height={250} width={700} />
+        <canvas ref={canvasRef} height={250} width={658} />
       </SignatureWrapper>
       <SignatureButtons>
         <Button className="muted" onClick={handleClearPad}>
