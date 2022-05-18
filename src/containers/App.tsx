@@ -82,6 +82,7 @@ const App = () => {
           onSetActiveTool={setActiveTool}
         />
         <DocumentsView
+          activeTool={activeTool}
           docPath={DOCUMENT_PATH}
           content={content}
           onContent={setContent}

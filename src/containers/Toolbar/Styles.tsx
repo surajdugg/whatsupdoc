@@ -3,7 +3,7 @@ import styledTS from "styled-components-ts";
 
 const ToolbarWrapper = styled.div`
   display: flex;
-  padding: 1rem;
+  padding: 0.5rem 1rem;
   justify-content: flex-end;
   position: sticky;
   left: 0;

@@ -20,10 +20,8 @@ const TextArea = ({ index, x, y, textAreaRef, onBlur }) => {
     if (textAreaRef.current) {
       const text = textAreaRef.current.value;
 
-      if (text) {
-        onBlur({ x, y, text, index });
-        textAreaRef.current.value = "";
-      }
+      onBlur({ x, y, text, index });
+      textAreaRef.current.value = "";
     }
   };
 

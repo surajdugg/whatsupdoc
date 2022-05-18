@@ -4,7 +4,12 @@ import PDFWrapper, { PageWrapper } from "./Styles";
 import PDFTools from "./PDFTools";
 import PageComponent from "./PageComponent";
 
-const DocumentViewer: FC<any> = ({ docPath, content, onContent }) => {
+const DocumentViewer: FC<any> = ({
+  activeTool,
+  docPath,
+  content,
+  onContent,
+}) => {
   const [numPages, setNumPages] = useState(null);
 
   const handleDocumentLoadSuccess = ({ numPages }) => {
@@ -17,7 +22,12 @@ const DocumentViewer: FC<any> = ({ docPath, content, onContent }) => {
         {Array.from(new Array(numPages), (el, index) => (
           <PageWrapper key={`page_${index + 1}`}>
             <PageComponent pageNumber={index + 1} />
-            <PDFTools index={index} content={content} onContent={onContent} />
+            <PDFTools
+              activeTool={activeTool}
+              index={index}
+              content={content}
+              onContent={onContent}
+            />
           </PageWrapper>
         ))}
       </Document>
