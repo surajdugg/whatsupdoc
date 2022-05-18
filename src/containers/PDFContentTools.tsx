@@ -1,6 +1,8 @@
 import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import { ICoords } from "../types/ICoords";
+import { IContent } from "../types/IContent";
+import CreatedContent from "./CreatedContent";
 import TextArea from "./TextArea";
 
 type IClickCoordsState = undefined | ICoords;
@@ -14,6 +16,7 @@ const ContentWrapper = styled.div`
 `;
 
 const PDFContentTools = () => {
+  const [content, setContent] = useState<IContent[]>([]);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const [clickCoords, setClickCoords] = useState<IClickCoordsState>(undefined);
 
@@ -29,9 +32,20 @@ const PDFContentTools = () => {
     }
   };
 
+  const handleBlur = (newContent: IContent) => {
+    setContent([...content, newContent]);
+  };
+
   return (
     <ContentWrapper onClick={handleClick}>
-      {clickCoords && <TextArea {...clickCoords} textAreaRef={textAreaRef} />}
+      <CreatedContent content={content} />
+      {clickCoords && (
+        <TextArea
+          {...clickCoords}
+          textAreaRef={textAreaRef}
+          onBlur={handleBlur}
+        />
+      )}
     </ContentWrapper>
   );
 };
