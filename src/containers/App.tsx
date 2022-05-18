@@ -131,6 +131,7 @@ const App = () => {
             activeTool={activeTool}
             docPath={DOCUMENT_PATH}
             content={content}
+            onOpen={handleOpen}
             onContent={setContent}
           />
         </Main>

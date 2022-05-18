@@ -6,6 +6,7 @@ const PageComponent: FC<any> = ({
   children,
   index,
   content,
+  onOpen,
   onContent,
 }) => {
   const handleClick = (e: any) => {
@@ -34,9 +35,11 @@ const PageComponent: FC<any> = ({
           x,
           y: y - 50,
           type: "signature",
-          path: signatures[selectedSignature],
+          path: signatures[selectedSignature ? selectedSignature : 0],
         },
       ]);
+    } else {
+      onOpen();
     }
   };
 

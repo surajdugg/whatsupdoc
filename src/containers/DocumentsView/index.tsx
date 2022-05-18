@@ -8,6 +8,7 @@ const DocumentViewer: FC<any> = ({
   activeTool,
   docPath,
   content,
+  onOpen,
   onContent,
 }) => {
   const [numPages, setNumPages] = useState(null);
@@ -25,6 +26,7 @@ const DocumentViewer: FC<any> = ({
               pageNumber={index + 1}
               index={index}
               content={content}
+              onOpen={onOpen}
               onContent={onContent}
             >
               <PDFTools
