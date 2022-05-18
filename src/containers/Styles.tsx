@@ -9,7 +9,7 @@ export const Container = styled.div`
 export const Main = styled.main`
   flex: 1;
   overflow-y: auto;
-  background-color: #e8edf7;
+  background-color: var(--gray-100);
   position: relative;
 `;
 

@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import Modal from "../components/Modal";
 import { Container, Main } from "./Styles";
 import SidebarView from "./SidebarView";
 import DocumentsView from "./DocumentsView";
@@ -14,6 +15,7 @@ if (typeof window !== "undefined") {
 const DOCUMENT_PATH = "/doc.pdf";
 
 const App = () => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [activeTool, setActiveTool] = useState<number>(0);
   const [content, setContent] = useState<IContent[]>([]);
   const [activePage, setActivePage] = useState<number>(0);
@@ -78,27 +80,35 @@ const App = () => {
     }
   };
 
+  const handleOpen = () => setIsOpen(true);
+
+  const handleClose = () => setIsOpen(false);
+
   return (
-    <Container>
-      <SidebarView
-        activePage={activePage}
-        docPath={DOCUMENT_PATH}
-        onScrollTo={handleScrollTo}
-      />
-      <Main ref={mainRef}>
-        <Toolbar
-          activeTool={activeTool}
-          onExport={handleExport}
-          onSetActiveTool={setActiveTool}
-        />
-        <DocumentsView
-          activeTool={activeTool}
+    <>
+      <Container>
+        <SidebarView
+          activePage={activePage}
           docPath={DOCUMENT_PATH}
-          content={content}
-          onContent={setContent}
+          onScrollTo={handleScrollTo}
         />
-      </Main>
-    </Container>
+        <Main ref={mainRef}>
+          <Toolbar
+            activeTool={activeTool}
+            onOpen={handleOpen}
+            onExport={handleExport}
+            onSetActiveTool={setActiveTool}
+          />
+          <DocumentsView
+            activeTool={activeTool}
+            docPath={DOCUMENT_PATH}
+            content={content}
+            onContent={setContent}
+          />
+        </Main>
+      </Container>
+      <Modal isOpen={isOpen} onClose={handleClose} />
+    </>
   );
 };
 

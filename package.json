@@ -13,8 +13,10 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-icons": "^3.10.0",
+    "react-modal": "^3.11.2",
     "react-pdf": "^4.1.0",
     "sass": "^1.26.7",
+    "signature_pad": "^3.0.0-beta.3",
     "styled-components": "^5.1.1",
     "styled-components-ts": "^0.0.15",
     "typescript": "^3.9.3"
