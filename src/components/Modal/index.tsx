@@ -128,6 +128,7 @@ const SigPad: FC<any> = ({ signatures, onClose }) => {
   let signaturepad: any;
 
   const handleFinishSignature = () => {
+    localStorage.setItem("selectedSignature", signatures.length);
     localStorage.setItem(
       "signatures",
       JSON.stringify([...signatures, signaturepad.toDataURL()])
