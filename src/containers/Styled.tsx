@@ -13,14 +13,20 @@ export const Sidebar = styled.aside`
 export const Main = styled.main`
   flex: 1;
   overflow-y: auto;
-  display: flex;
-  justify-content: center;
   background-color: #e8edf7;
   position: relative;
 `;
 
+export const Toolbar = styled.div`
+  display: flex;
+`;
+
+export const Button = styled.button``;
+
 export const PDFWrapper = styled.div`
   padding: 1rem;
+  display: flex;
+  justify-content: center;
 
   .react-pdf__Page {
     margin-bottom: 1rem;
