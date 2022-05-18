@@ -22,6 +22,17 @@ const SignatureWrapper = styled.div`
   border-radius: 4px;
 `;
 
+const SignaturesWrap = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -1rem;
+`;
+
+const SignatureCol = styled.div`
+  padding: 1rem;
+  width: 50%;
+`;
+
 const SignatureButtons = styled.div`
   padding: 1rem 0;
   display: flex;
@@ -38,7 +49,6 @@ const SignatureCard = styled.div`
   cursor: pointer;
   border: 1px solid var(--border-color);
   border-radius: 4px;
-  max-width: 50%;
 
   &:hover {
     box-shadow: 0 0 0 3px var(--primary);
@@ -70,30 +80,11 @@ const ModalComponent: FC<any> = ({ isOpen, onClose }) => {
 };
 
 const ModalContent: FC<any> = ({ onClose }) => {
+  const savedSignatures = localStorage.getItem("signatures")
+    ? JSON.parse(localStorage.getItem("signatures"))
+    : [];
   const [signatureOpen, setSignatureOpen] = useState<boolean>(false);
-  const [signatures, setSignatures] = useState<string[]>([]);
-  const canvasRef = useRef<any>(null);
-  let signaturepad: any;
-
-  useEffect(() => {
-    setSignatures([localStorage.getItem("signature")]);
-
-    if (canvasRef.current) {
-      signaturepad = new SignaturePad(canvasRef.current, {
-        backgroundColor: "rgba(255, 255, 255, 0)",
-        penColor: "rgb(0, 0, 0)",
-      });
-    }
-  }, []);
-
-  const handleFinishSignature = () => {
-    localStorage.setItem("signature", signaturepad.toDataURL());
-    onClose();
-  };
-
-  const handleClearPad = () => {
-    signaturepad.clear();
-  };
+  const [signatures, setSignatures] = useState<string[]>(savedSignatures);
 
   const openSignatureView = () => {
     setSignatureOpen(true);
@@ -106,22 +97,22 @@ const ModalContent: FC<any> = ({ onClose }) => {
         <RiCloseLine onClick={onClose} />
       </Title>
       {!signatures.length || signatureOpen ? (
-        <>
-          <SignatureWrapper>
-            <canvas ref={canvasRef} height={250} width={700} />
-          </SignatureWrapper>
-          <SignatureButtons>
-            <Button className="muted" onClick={handleClearPad}>
-              Clear
-            </Button>
-            <Button onClick={handleFinishSignature}>Finish</Button>
-          </SignatureButtons>
-        </>
+        <Signature
+          signatures={signatures}
+          onSetSignatures={setSignatures}
+          onClose={onClose}
+        />
       ) : (
         <>
-          <SignatureCard onClick={onClose}>
-            <img src={signatures[0]} />
-          </SignatureCard>
+          <SignaturesWrap>
+            {signatures.map((signature, index) => (
+              <SignatureCol>
+                <SignatureCard key={index} onClick={onClose}>
+                  <img src={signature} />
+                </SignatureCard>
+              </SignatureCol>
+            ))}
+          </SignaturesWrap>
           <SignatureButtons>
             <Button style={{ marginLeft: "auto" }} onClick={openSignatureView}>
               Add New Signature
@@ -129,6 +120,46 @@ const ModalContent: FC<any> = ({ onClose }) => {
           </SignatureButtons>
         </>
       )}
+    </>
+  );
+};
+
+const Signature: FC<any> = ({ signatures, onSetSignatures, onClose }) => {
+  const canvasRef = useRef<any>(null);
+  let signaturepad: any;
+
+  const handleFinishSignature = () => {
+    localStorage.setItem(
+      "signatures",
+      JSON.stringify([...signatures, signaturepad.toDataURL()])
+    );
+    onClose();
+  };
+
+  const handleClearPad = () => {
+    signaturepad.clear();
+  };
+
+  useEffect(() => {
+    if (canvasRef.current) {
+      signaturepad = new SignaturePad(canvasRef.current, {
+        backgroundColor: "rgba(255, 255, 255, 0)",
+        penColor: "rgb(0, 0, 0)",
+      });
+    }
+  }, []);
+
+  return (
+    <>
+      <SignatureWrapper>
+        <canvas ref={canvasRef} height={250} width={700} />
+      </SignatureWrapper>
+      <SignatureButtons>
+        <Button className="muted" onClick={handleClearPad}>
+          Clear
+        </Button>
+        <Button onClick={handleFinishSignature}>Finish</Button>
+      </SignatureButtons>
     </>
   );
 };
