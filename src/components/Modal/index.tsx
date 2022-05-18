@@ -59,7 +59,7 @@ const SignatureCardStyle = styled.div`
   }
 `;
 
-const ModalComponent: FC<any> = ({ isOpen, onClose }) => {
+const ModalComponent: FC<any> = ({ isOpen, content, onClose, onContent }) => {
   return (
     <Modal
       isOpen={isOpen}
@@ -74,12 +74,12 @@ const ModalComponent: FC<any> = ({ isOpen, onClose }) => {
       }}
       contentLabel="Signatures"
     >
-      <ModalContent onClose={onClose} />
+      <ModalContent content={content} onContent={onContent} onClose={onClose} />
     </Modal>
   );
 };
 
-const ModalContent: FC<any> = ({ onClose }) => {
+const ModalContent: FC<any> = ({ content, onContent, onClose }) => {
   const signatures = localStorage.getItem("signatures")
     ? JSON.parse(localStorage.getItem("signatures"))
     : [];
@@ -99,7 +99,12 @@ const ModalContent: FC<any> = ({ onClose }) => {
         <RiCloseLine onClick={onClose} />
       </Title>
       {!signatures.length || signatureOpen ? (
-        <SigPad signatures={signatures} onClose={onClose} />
+        <SigPad
+          signatures={signatures}
+          content={content}
+          onContent={onContent}
+          onClose={onClose}
+        />
       ) : (
         <>
           <SignaturesWrap>
@@ -123,17 +128,32 @@ const ModalContent: FC<any> = ({ onClose }) => {
   );
 };
 
-const SigPad: FC<any> = ({ signatures, onClose }) => {
+const SigPad: FC<any> = ({ signatures, content, onClose, onContent }) => {
   const canvasRef = useRef<any>(null);
   let signaturepad: any;
 
   const handleFinishSignature = () => {
-    localStorage.setItem("selectedSignature", signatures.length);
+    const newIndex = signatures.length;
+    localStorage.setItem("selectedSignature", newIndex);
     localStorage.setItem(
       "signatures",
       JSON.stringify([...signatures, signaturepad.toDataURL()])
     );
+
     onClose();
+
+    const updatedContent = content.map((item: any) =>
+      item.path === "pending"
+        ? {
+            ...item,
+            path: signaturepad.toDataURL(),
+          }
+        : item
+    );
+
+    onContent(updatedContent);
+
+    console.log({ updatedContent });
   };
 
   const handleClearPad = () => {

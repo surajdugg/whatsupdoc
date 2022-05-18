@@ -136,7 +136,12 @@ const App = () => {
           />
         </Main>
       </Container>
-      <Modal isOpen={isOpen} onClose={handleClose} />
+      <Modal
+        content={content}
+        isOpen={isOpen}
+        onClose={handleClose}
+        onContent={setContent}
+      />
     </>
   );
 };

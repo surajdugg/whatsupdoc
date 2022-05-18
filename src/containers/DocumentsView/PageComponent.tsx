@@ -18,12 +18,13 @@ const PageComponent: FC<any> = ({
     const check2 = elParent.classList.contains("squareAnnotation");
     const check3 = el.classList.contains("squareAnnotation");
 
-    if ((check1 || check2 || check3) && localStorage.getItem("signatures")) {
-      const bounds = el.closest(".annotationLayer").getBoundingClientRect();
-      const x = e.clientX - bounds.left;
-      const y = e.clientY - bounds.top;
+    const bounds = el.closest(".annotationLayer").getBoundingClientRect();
+    const x = e.clientX - bounds.left;
+    const y = e.clientY - bounds.top;
+    const signatures = localStorage.getItem("signatures");
 
-      const signatures = JSON.parse(localStorage.getItem("signatures"));
+    if ((check1 || check2 || check3) && signatures) {
+      const parsedSignatures = JSON.parse(signatures);
       const selectedSignature = JSON.parse(
         localStorage.getItem("selectedSignature")
       );
@@ -35,10 +36,21 @@ const PageComponent: FC<any> = ({
           x,
           y: y - 50,
           type: "signature",
-          path: signatures[selectedSignature ? selectedSignature : 0],
+          path: parsedSignatures[selectedSignature ? selectedSignature : 0],
         },
       ]);
     } else {
+      onContent([
+        ...content,
+        {
+          index,
+          x,
+          y: y - 50,
+          type: "signature",
+          path: "pending",
+        },
+      ]);
+
       onOpen();
     }
   };
