@@ -49,7 +49,7 @@ const App = () => {
         const height = pdf.internal.pageSize.getHeight();
 
         if (pageContent.length) {
-          pageContent.forEach((item: any) => {
+          pageContent.forEach((item: any, index: number) => {
             if (item.text) {
               ctx.font = `${16 * scale}px/1.1 helvetica`;
               ctx.fillText(
@@ -61,7 +61,9 @@ const App = () => {
 
             if (item.path && item.type === "signature") {
               // TODO: Signature w/h should not be hardcoded
-              const signature = document.getElementById("Signature") as any;
+              const signature = document.getElementById(
+                `Signature_${index}`
+              ) as any;
 
               ctx.drawImage(
                 signature,

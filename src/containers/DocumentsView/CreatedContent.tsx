@@ -36,7 +36,9 @@ const CreatedContent: FC<ICreatedContentProps> = ({ content, activeTool }) => {
       {content.map(({ text, type, path, x, y }: IContent, index: number) => (
         <ContentNode key={index} type={type} x={x} y={y}>
           {text && type === "text" && text}
-          {path && type === "signature" && <img id="Signature" src={path} />}
+          {path && type === "signature" && (
+            <img id={`Signature_${index}`} src={path} />
+          )}
           {path && type === "checkmark" && <img id="Checkmark" src={path} />}
         </ContentNode>
       ))}
