@@ -1,5 +1,5 @@
 {
-  "name": "learn-starter",
+  "name": "document-sign",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -10,6 +10,14 @@
   "dependencies": {
     "next": "9.3.5",
     "react": "16.13.1",
-    "react-dom": "16.13.1"
+    "react-dom": "16.13.1",
+    "react-pdf": "^4.1.0",
+    "sass": "^1.26.7",
+    "styled-components": "^5.1.1",
+    "typescript": "^3.9.3"
+  },
+  "devDependencies": {
+    "@types/node": "^14.0.9",
+    "@types/react": "^16.9.35"
   }
 }
