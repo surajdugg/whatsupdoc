@@ -21,13 +21,19 @@ const DocumentViewer: FC<any> = ({
       <Document file={docPath} onLoadSuccess={handleDocumentLoadSuccess}>
         {Array.from(new Array(numPages), (_, index) => (
           <PageWrapper key={`page_${index + 1}`}>
-            <PageComponent pageNumber={index + 1} />
-            <PDFTools
+            <PageComponent
+              pageNumber={index + 1}
               index={index}
               content={content}
-              activeTool={activeTool}
               onContent={onContent}
-            />
+            >
+              <PDFTools
+                index={index}
+                content={content}
+                activeTool={activeTool}
+                onContent={onContent}
+              />
+            </PageComponent>
           </PageWrapper>
         ))}
       </Document>
