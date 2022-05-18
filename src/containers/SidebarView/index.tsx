@@ -1,6 +1,6 @@
 import React, { FC, useState } from "react";
 import { Document, Page } from "react-pdf";
-import Sidebar, { PageCardStyle } from "./Styled";
+import Sidebar, { PageCardStyle } from "./Styles";
 
 const SidebarView: FC<any> = ({ activePage, docPath, onScrollTo }) => {
   const [numPages, setNumPages] = useState(null);

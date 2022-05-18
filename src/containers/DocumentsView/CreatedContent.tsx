@@ -14,13 +14,13 @@ const ContentNode = styledTS<ICoords>(styled.div)`
 
 const CreatedContent: FC<ICreatedContentProps> = ({ content }) => {
   return (
-    <div>
-      {content.map(({ text, x, y }: IContent) => (
-        <ContentNode x={x} y={y}>
+    <>
+      {content.map(({ text, x, y }: IContent, index: number) => (
+        <ContentNode key={index} x={x} y={y}>
           {text}
         </ContentNode>
       ))}
-    </div>
+    </>
   );
 };
 

@@ -1,10 +1,10 @@
 import React, { FC, useState } from "react";
 import { Document } from "react-pdf";
-import PDFWrapper, { PageWrapper } from "./Styled";
+import PDFWrapper, { PageWrapper } from "./Styles";
 import PDFTools from "./PDFTools";
 import PageComponent from "./PageComponent";
 
-const DocumentViewer: FC<any> = ({ docPath, canvasRef }) => {
+const DocumentViewer: FC<any> = ({ docPath, content, onContent }) => {
   const [numPages, setNumPages] = useState(null);
 
   const handleDocumentLoadSuccess = ({ numPages }) => {
@@ -16,8 +16,8 @@ const DocumentViewer: FC<any> = ({ docPath, canvasRef }) => {
       <Document file={docPath} onLoadSuccess={handleDocumentLoadSuccess}>
         {Array.from(new Array(numPages), (el, index) => (
           <PageWrapper key={`page_${index + 1}`}>
-            <PageComponent canvasRef={canvasRef} pageNumber={index + 1} />
-            <PDFTools />
+            <PageComponent pageNumber={index + 1} />
+            <PDFTools index={index} content={content} onContent={onContent} />
           </PageWrapper>
         ))}
       </Document>

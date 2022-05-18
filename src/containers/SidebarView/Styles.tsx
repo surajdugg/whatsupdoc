@@ -8,6 +8,7 @@ const Sidebar = styled.aside`
   align-items: center;
   overflow-y: auto;
   padding: 1rem 0;
+  border-right: 1px solid #e0e6f0;
 `;
 
 export const PageCardStyle = styledTS<{ isActive: boolean }>(styled.div)`

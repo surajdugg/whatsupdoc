@@ -15,12 +15,12 @@ const ContentWrapper = styled.div`
   bottom: 0;
 `;
 
-const PDFContentTools = () => {
-  const [content, setContent] = useState<IContent[]>([]);
+const PDFContentTools = ({ index, content, onContent }) => {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const [clickCoords, setClickCoords] = useState<IClickCoordsState>(undefined);
 
   const handleClick = (e: MouseEvent) => {
+    e.stopPropagation();
     const bounds = (e.target as HTMLDivElement).getBoundingClientRect();
     const x = e.clientX - bounds.left;
     const y = e.clientY - bounds.top;
@@ -33,15 +33,18 @@ const PDFContentTools = () => {
   };
 
   const handleBlur = (newContent: IContent) => {
-    setContent([...content, newContent]);
+    onContent([...content, newContent]);
   };
 
   return (
     <ContentWrapper onClick={handleClick}>
-      <CreatedContent content={content} />
+      <CreatedContent
+        content={content.filter((item) => item.index === index)}
+      />
       {clickCoords && (
         <TextArea
           {...clickCoords}
+          index={index}
           textAreaRef={textAreaRef}
           onBlur={handleBlur}
         />

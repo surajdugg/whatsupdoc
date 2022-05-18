@@ -6,10 +6,12 @@ import { ICoords } from "../../types/ICoords";
 const TextAreaStyle = styledTS<ICoords>(styled.textarea)`
   resize: none;
   background: transparent;
+  font-family: helvetica;
+  font-size: 1rem;
   ${({ x, y }) => `transform: translate3d(${x}px, ${y}px, 0);`};
 `;
 
-const TextArea = ({ x, y, textAreaRef, onBlur }) => {
+const TextArea = ({ index, x, y, textAreaRef, onBlur }) => {
   const handleClick = (e: MouseEvent) => {
     e.stopPropagation();
   };
@@ -19,7 +21,7 @@ const TextArea = ({ x, y, textAreaRef, onBlur }) => {
       const text = textAreaRef.current.value;
 
       if (text) {
-        onBlur({ x, y, text });
+        onBlur({ x, y, text, index });
         textAreaRef.current.value = "";
       }
     }
