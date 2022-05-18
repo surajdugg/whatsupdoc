@@ -1,88 +1,48 @@
-import React, { FC, useState } from "react";
-import { Document, Page } from "react-pdf";
-import {
-  Container,
-  Sidebar,
-  Main,
-  Toolbar,
-  Button,
-  PDFWrapper,
-  PageWrapper,
-} from "./styled";
-import PDFContentTools from "./PDFContentTools";
+import React, { useRef } from "react";
+import { Container, Main } from "./styled";
+import SidebarView from "./SidebarView";
+import DocumentsViewer from "./DocumentsView";
+import Toolbar from "./Toolbar";
 
-// HACK
-let canvas;
+const DOCUMENT_PATH = "/doc.pdf";
 
 const App = () => {
-  const [numPages, setNumPages] = useState(null);
-
-  const handleDocumentLoadSuccess = ({ numPages }) => {
-    setNumPages(numPages);
-  };
+  const canvasRef = useRef<any>(null);
 
   const handleExport = () => {
-    const ctx = canvas.getContext("2d");
-    ctx.font = "20px Georgia";
-    ctx.fillText("Hello World!", 10, 50);
+    if (canvasRef.current) {
+      const ctx = canvasRef.current.getContext("2d");
+      ctx.font = "20px Georgia";
+      ctx.fillText("Hello World!", 10, 50);
 
-    // Convert the Base64 string back to text.
-    const byteString = atob(
-      canvas.toDataURL().replace(/^data:image\/(png|jpeg|jpg);base64,/, "")
-    );
+      // Convert the Base64 string back to text.
+      const byteString = atob(
+        canvasRef.current
+          .toDataURL()
+          .replace(/^data:image\/(png|jpeg|jpg);base64,/, "")
+      );
 
-    // Convert that text into a byte array.
-    const ab = new ArrayBuffer(byteString.length);
-    const ia = new Uint8Array(ab);
-    for (var i = 0; i < byteString.length; i++) {
-      ia[i] = byteString.charCodeAt(i);
+      // Convert that text into a byte array.
+      const ab = new ArrayBuffer(byteString.length);
+      const ia = new Uint8Array(ab);
+      for (var i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+      }
+
+      // Blob for saving.
+      const blob = new Blob([ia], { type: "image/png" });
+      document.location.href = window.URL.createObjectURL(blob);
     }
-
-    // Blob for saving.
-    const blob = new Blob([ia], { type: "image/png" });
-    document.location.href = window.URL.createObjectURL(blob);
   };
 
   return (
     <Container>
-      <Sidebar>Sidebar</Sidebar>
+      <SidebarView docPath={DOCUMENT_PATH} />
       <Main>
-        <Toolbar>
-          <Button onClick={handleExport}>Export</Button>
-        </Toolbar>
-        <PDFWrapper>
-          <Document file="/doc.pdf" onLoadSuccess={handleDocumentLoadSuccess}>
-            {Array.from(new Array(numPages), (el, index) => (
-              <PageWrapper key={`page_${index + 1}`}>
-                <PageComponent pageNumber={index + 1} />
-                <PDFContentTools />
-              </PageWrapper>
-            ))}
-          </Document>
-        </PDFWrapper>
+        <Toolbar onExport={handleExport} />
+        <DocumentsViewer docPath={DOCUMENT_PATH} canvasRef={canvasRef} />
       </Main>
     </Container>
-  );
-};
-
-const PageComponent: FC<any> = ({ pageNumber }) => {
-  const handleRenderSuccess = () => {
-    const importPDFCanvas: HTMLCanvasElement = document.querySelector(
-      ".react-pdf__Page canvas"
-    );
-
-    canvas = importPDFCanvas;
-    // const pdfAsImageSrc = importPDFCanvas.toDataURL();
-  };
-
-  return (
-    <Page
-      scale={1.5}
-      renderTextLayer={false}
-      renderAnnotationLayer={false}
-      pageNumber={pageNumber}
-      onRenderSuccess={handleRenderSuccess}
-    />
   );
 };
 

@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import styled from "styled-components";
-import { ICoords } from "../types/ICoords";
-import { IContent } from "../types/IContent";
+import { ICoords } from "../../types/ICoords";
+import { IContent } from "../../types/IContent";
 import CreatedContent from "./CreatedContent";
 import TextArea from "./TextArea";
 

@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import styledTS from "styled-components-ts";
-import { ICoords } from "../types/ICoords";
+import { ICoords } from "../../types/ICoords";
 
 const TextAreaStyle = styledTS<ICoords>(styled.textarea)`
   resize: none;

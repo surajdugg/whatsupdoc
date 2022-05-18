@@ -6,10 +6,6 @@ export const Container = styled.div`
   overflow: hidden;
 `;
 
-export const Sidebar = styled.aside`
-  width: 200px;
-`;
-
 export const Main = styled.main`
   flex: 1;
   overflow-y: auto;
@@ -17,26 +13,16 @@ export const Main = styled.main`
   position: relative;
 `;
 
-export const Toolbar = styled.div`
-  display: flex;
-`;
+export const Button = styled.button`
+  background-color: var(--primary);
+  border: 1px solid var(--primary);
+  color: #fff;
+  padding: 0.5rem 1.5rem;
+  border-radius: 4px;
+  cursor: pointer;
 
-export const Button = styled.button``;
-
-export const PDFWrapper = styled.div`
-  padding: 1rem;
-  display: flex;
-  justify-content: center;
-
-  .react-pdf__Page {
-    margin-bottom: 1rem;
+  &:hover {
+    background-color: var(--primary-hover);
+    border-color: var(--primary-hover);
   }
-
-  canvas {
-    box-shadow: 0 0 10px 0px rgba(79, 96, 113, 0.1);
-  }
-`;
-
-export const PageWrapper = styled.div`
-  position: relative;
 `;
