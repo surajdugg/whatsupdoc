@@ -23,9 +23,9 @@ const DocumentViewer: FC<any> = ({
           <PageWrapper key={`page_${index + 1}`}>
             <PageComponent pageNumber={index + 1} />
             <PDFTools
-              activeTool={activeTool}
               index={index}
               content={content}
+              activeTool={activeTool}
               onContent={onContent}
             />
           </PageWrapper>

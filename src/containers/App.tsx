@@ -32,20 +32,34 @@ const App = () => {
       allCanvases.forEach((item: any, index) => {
         const isLast = index === lastIndex;
         const canvas = item.getElementsByTagName("canvas")[0];
+        const canvasCopy = document.createElement("canvas");
+        canvasCopy.width = canvas.width;
+        canvasCopy.height = canvas.height;
         const pageContent = content.filter((item: any) => item.index === index);
+        const ctx = canvasCopy.getContext("2d");
+        ctx.drawImage(canvas, 0, 0);
 
         if (pageContent.length) {
-          const ctx = canvas.getContext("2d");
-
           pageContent.forEach((item: any) => {
             if (item.text) {
               ctx.font = "16px/1.1 helvetica";
               ctx.fillText(item.text, item.x - 1, item.y + 13);
             }
 
-            if (item.path) {
+            if (item.path && item.type === "signature") {
+              // TODO: Signature w/h should not be hardcoded
               ctx.drawImage(
-                document.getElementById("Checkmark"),
+                document.getElementById("Signature") as any,
+                item.x,
+                item.y,
+                350,
+                125
+              );
+            }
+
+            if (item.path && item.type === "checkmark") {
+              ctx.drawImage(
+                document.getElementById("Checkmark") as any,
                 item.x,
                 item.y
               );
@@ -53,14 +67,9 @@ const App = () => {
           });
         }
 
-        let width = canvas.width;
-        let height = canvas.height;
-
-        //then we get the dimensions from the 'pdf' file itself
-        width = pdf.internal.pageSize.getWidth();
-        height = pdf.internal.pageSize.getHeight();
-        pdf.internal.scaleFactor = 1.5;
-        pdf.addImage(canvas, "PNG", 0, 0, width, height);
+        const width = pdf.internal.pageSize.getWidth();
+        const height = pdf.internal.pageSize.getHeight();
+        pdf.addImage(canvasCopy, "PNG", 0, 0, width, height);
 
         if (!isLast) {
           pdf.addPage();

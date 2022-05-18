@@ -6,6 +6,7 @@ import { IContent } from "../../types/IContent";
 
 interface ICreatedContentProps {
   content: IContent[];
+  activeTool: number;
 }
 
 const ContentNode = styledTS<ICoords>(styled.div)`
@@ -14,13 +15,16 @@ const ContentNode = styledTS<ICoords>(styled.div)`
   position: absolute;
 `;
 
-const CreatedContent: FC<ICreatedContentProps> = ({ content }) => {
+const CreatedContent: FC<ICreatedContentProps> = ({ content, activeTool }) => {
   return (
     <>
-      {content.map(({ text, path, x, y }: IContent, index: number) => (
+      {content.map(({ text, type, path, x, y }: IContent, index: number) => (
         <ContentNode key={index} x={x} y={y}>
-          {text && text}
-          {path && <img id="Checkmark" src={path} />}
+          {text && type === "text" && text}
+          {path && type === "signature" && (
+            <img id="Signature" style={{ maxWidth: "50%" }} src={path} />
+          )}
+          {path && type === "checkmark" && <img id="Checkmark" src={path} />}
         </ContentNode>
       ))}
     </>

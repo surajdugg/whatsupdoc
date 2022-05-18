@@ -56,15 +56,19 @@ const PDFContentTools: FC<any> = ({
         ...content,
         {
           index,
-          x: x - 20,
-          y: y - 125,
+          x,
+          y: y - 50,
+          type: "signature",
           path: localStorage.getItem("signature"),
         },
       ]);
     }
 
     if (activeTool === 2) {
-      onContent([...content, { index, x, y, path: "/svg/check.svg" }]);
+      onContent([
+        ...content,
+        { index, x, y, type: "checkmark", path: "/svg/check.svg" },
+      ]);
     }
   };
 
@@ -79,6 +83,7 @@ const PDFContentTools: FC<any> = ({
   return (
     <ContentWrapper activeTool={activeTool} onClick={handleClick}>
       <CreatedContent
+        activeTool={activeTool}
         content={content.filter((item: any) => item.index === index)}
       />
       {clickCoords && activeTool === 0 && (

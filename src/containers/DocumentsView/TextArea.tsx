@@ -20,7 +20,7 @@ const TextArea: FC<any> = ({ index, x, y, textAreaRef, onBlur }) => {
     if (textAreaRef.current) {
       const text = textAreaRef.current.value;
 
-      onBlur({ x, y, text, index });
+      onBlur({ x, y, text, index, type: "text" });
       textAreaRef.current.value = "";
     }
   };
