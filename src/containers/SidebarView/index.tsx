@@ -1,9 +1,8 @@
 import React, { FC, useState } from "react";
-import styled from "styled-components";
 import { Document, Page } from "react-pdf";
-import Sidebar, { PageCard } from "./Styled";
+import Sidebar, { PageCardStyle } from "./Styled";
 
-const SidebarView: FC<any> = ({ docPath }) => {
+const SidebarView: FC<any> = ({ activePage, docPath, onScrollTo }) => {
   const [numPages, setNumPages] = useState(null);
 
   const handleDocumentLoadSuccess = ({ numPages }) => {
@@ -14,19 +13,33 @@ const SidebarView: FC<any> = ({ docPath }) => {
     <Sidebar>
       <Document file={docPath} onLoadSuccess={handleDocumentLoadSuccess}>
         {Array.from(new Array(numPages), (el, index) => (
-          <PageCard>
-            <Page
-              key={`page_${index + 1}`}
-              scale={0.25}
-              renderTextLayer={false}
-              renderAnnotationLayer={false}
-              pageNumber={1}
-              onRenderSuccess={() => {}}
-            />
-          </PageCard>
+          <PageCard
+            key={`page_${index + 1}`}
+            index={index}
+            isActive={activePage === index}
+            pageNumber={index + 1}
+            onScrollTo={onScrollTo}
+          />
         ))}
       </Document>
     </Sidebar>
+  );
+};
+
+const PageCard = ({ index, isActive, pageNumber, onScrollTo }) => {
+  const handleScrollTo = () => {
+    onScrollTo(index);
+  };
+
+  return (
+    <PageCardStyle isActive={isActive} onClick={handleScrollTo}>
+      <Page
+        scale={0.25}
+        renderTextLayer={false}
+        renderAnnotationLayer={false}
+        pageNumber={pageNumber}
+      />
+    </PageCardStyle>
   );
 };
 

@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { Container, Main } from "./styled";
 import SidebarView from "./SidebarView";
 import DocumentsViewer from "./DocumentsView";
@@ -7,6 +7,8 @@ import Toolbar from "./Toolbar";
 const DOCUMENT_PATH = "/doc.pdf";
 
 const App = () => {
+  const [activePage, setActivePage] = useState<number>(0);
+  const scrollRef = useRef<any>(null);
   const canvasRef = useRef<any>(null);
 
   const handleExport = () => {
@@ -35,10 +37,23 @@ const App = () => {
     }
   };
 
+  const handleScrollTo = (index: number) => {
+    if (scrollRef.current) {
+      setActivePage(index);
+      const pageTop =
+        scrollRef.current.children[1].firstChild.children[index].offsetTop;
+      scrollRef.current.scrollTo(0, pageTop);
+    }
+  };
+
   return (
     <Container>
-      <SidebarView docPath={DOCUMENT_PATH} />
-      <Main>
+      <SidebarView
+        activePage={activePage}
+        docPath={DOCUMENT_PATH}
+        onScrollTo={handleScrollTo}
+      />
+      <Main ref={scrollRef}>
         <Toolbar onExport={handleExport} />
         <DocumentsViewer docPath={DOCUMENT_PATH} canvasRef={canvasRef} />
       </Main>
