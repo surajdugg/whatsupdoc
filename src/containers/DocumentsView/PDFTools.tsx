@@ -20,6 +20,10 @@ const ContentWrapper = styledTS<{ activeTool: number }>(styled.div)`
       return `cursor: url("/svg/text.svg"), auto`;
     }
 
+    if (activeTool === 1) {
+      return `cursor: url("/svg/signature.svg"), auto`;
+    }
+
     if (activeTool === 2) {
       return `cursor: url("/svg/check.svg"), auto`;
     }
@@ -40,6 +44,18 @@ const PDFContentTools = ({ activeTool, index, content, onContent }) => {
 
     if (textAreaRef.current) {
       textAreaRef.current.focus();
+    }
+
+    if (activeTool === 1) {
+      onContent([
+        ...content,
+        {
+          index,
+          x: x - 20,
+          y: y - 125,
+          path: localStorage.getItem("signature"),
+        },
+      ]);
     }
 
     if (activeTool === 2) {
