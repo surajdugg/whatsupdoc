@@ -10,14 +10,17 @@ interface ICreatedContentProps {
 
 const ContentNode = styledTS<ICoords>(styled.div)`
   ${({ x, y }) => `transform: translate3d(${x}px, ${y}px, 0);`};
+  display: inline-block;
+  position: absolute;
 `;
 
 const CreatedContent: FC<ICreatedContentProps> = ({ content }) => {
   return (
     <>
-      {content.map(({ text, x, y }: IContent, index: number) => (
+      {content.map(({ text, path, x, y }: IContent, index: number) => (
         <ContentNode key={index} x={x} y={y}>
-          {text}
+          {text && text}
+          {path && <img id="Checkmark" src={path} />}
         </ContentNode>
       ))}
     </>

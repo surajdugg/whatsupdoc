@@ -1,5 +1,7 @@
 export interface IContent {
   x: number;
   y: number;
-  text: string;
+  index: number;
+  text?: string;
+  path?: string;
 }

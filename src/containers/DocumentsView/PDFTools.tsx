@@ -41,6 +41,13 @@ const PDFContentTools = ({ activeTool, index, content, onContent }) => {
     if (textAreaRef.current) {
       textAreaRef.current.focus();
     }
+
+    if (activeTool === 2) {
+      onContent([
+        ...content,
+        { index, x, y, path: "http://localhost:3000/svg/check.svg" },
+      ]);
+    }
   };
 
   const handleBlur = (newContent: IContent) => {
@@ -56,7 +63,7 @@ const PDFContentTools = ({ activeTool, index, content, onContent }) => {
       <CreatedContent
         content={content.filter((item) => item.index === index)}
       />
-      {clickCoords && (
+      {clickCoords && activeTool === 0 && (
         <TextArea
           {...clickCoords}
           index={index}

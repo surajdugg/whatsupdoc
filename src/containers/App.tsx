@@ -36,8 +36,18 @@ const App = () => {
           const ctx = canvas.getContext("2d");
 
           pageContent.forEach((item: any) => {
-            ctx.font = "16px/1.1 helvetica";
-            ctx.fillText(item.text, item.x - 1, item.y + 13);
+            if (item.text) {
+              ctx.font = "16px/1.1 helvetica";
+              ctx.fillText(item.text, item.x - 1, item.y + 13);
+            }
+
+            if (item.path) {
+              ctx.drawImage(
+                document.getElementById("Checkmark"),
+                item.x,
+                item.y
+              );
+            }
           });
         }
 
