@@ -17,9 +17,8 @@ const App = () => {
         <PDFWrapper>
           <Document file="/doc.pdf" onLoadSuccess={handleDocumentLoadSuccess}>
             {Array.from(new Array(numPages), (el, index) => (
-              <PageWrapper>
+              <PageWrapper key={`page_${index + 1}`}>
                 <Page
-                  key={`page_${index + 1}`}
                   scale={1.5}
                   renderTextLayer={false}
                   renderAnnotationLayer={false}
