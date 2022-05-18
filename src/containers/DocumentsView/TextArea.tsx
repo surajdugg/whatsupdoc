@@ -8,6 +8,7 @@ const TextAreaStyle = styledTS<ICoords>(styled.textarea)`
   background: transparent;
   font-family: helvetica;
   font-size: 1rem;
+  border: 0;
   ${({ x, y }) => `transform: translate3d(${x}px, ${y}px, 0);`};
 `;
 
@@ -29,6 +30,7 @@ const TextArea: FC<any> = ({ index, x, y, textAreaRef, onBlur }) => {
     <TextAreaStyle
       x={x}
       y={y}
+      rows="1"
       autoFocus
       ref={textAreaRef}
       onClick={handleClick}

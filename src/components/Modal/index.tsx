@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import Modal from "react-modal";
 import { RiCloseLine } from "react-icons/ri";
@@ -34,6 +34,21 @@ const SignatureButtons = styled.div`
   }
 `;
 
+const SignatureCard = styled.div`
+  cursor: pointer;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  max-width: 50%;
+
+  &:hover {
+    box-shadow: 0 0 0 3px var(--primary);
+  }
+
+  img {
+    max-width: 100%;
+  }
+`;
+
 const ModalComponent: FC<any> = ({ isOpen, onClose }) => {
   return (
     <Modal
@@ -55,10 +70,14 @@ const ModalComponent: FC<any> = ({ isOpen, onClose }) => {
 };
 
 const ModalContent: FC<any> = ({ onClose }) => {
+  const [signatureOpen, setSignatureOpen] = useState<boolean>(false);
+  const [signatures, setSignatures] = useState<string[]>([]);
   const canvasRef = useRef<any>(null);
   let signaturepad: any;
 
   useEffect(() => {
+    setSignatures([localStorage.getItem("signature")]);
+
     if (canvasRef.current) {
       signaturepad = new SignaturePad(canvasRef.current, {
         backgroundColor: "rgba(255, 255, 255, 0)",
@@ -76,21 +95,40 @@ const ModalContent: FC<any> = ({ onClose }) => {
     signaturepad.clear();
   };
 
+  const openSignatureView = () => {
+    setSignatureOpen(true);
+  };
+
   return (
     <>
       <Title>
         <h2>Signature</h2>
         <RiCloseLine onClick={onClose} />
       </Title>
-      <SignatureWrapper>
-        <canvas ref={canvasRef} height={250} width={700} />
-      </SignatureWrapper>
-      <SignatureButtons>
-        <Button className="muted" onClick={handleClearPad}>
-          Clear
-        </Button>
-        <Button onClick={handleFinishSignature}>Finish</Button>
-      </SignatureButtons>
+      {!signatures.length || signatureOpen ? (
+        <>
+          <SignatureWrapper>
+            <canvas ref={canvasRef} height={250} width={700} />
+          </SignatureWrapper>
+          <SignatureButtons>
+            <Button className="muted" onClick={handleClearPad}>
+              Clear
+            </Button>
+            <Button onClick={handleFinishSignature}>Finish</Button>
+          </SignatureButtons>
+        </>
+      ) : (
+        <>
+          <SignatureCard onClick={onClose}>
+            <img src={signatures[0]} />
+          </SignatureCard>
+          <SignatureButtons>
+            <Button style={{ marginLeft: "auto" }} onClick={openSignatureView}>
+              Add New Signature
+            </Button>
+          </SignatureButtons>
+        </>
+      )}
     </>
   );
 };
