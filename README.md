@@ -1,5 +1,5 @@
 # WhatsUpDoc
-Document sign is a lightweight document signing app built with React.js
+WhatsupDoc is a lightweight document signing app built with React.js and Next.js
 
 ## Installation
 Create a project folder.
