@@ -1,4 +1,4 @@
-# Document Sign
+# WhatsUpDoc
 Document sign is a lightweight document signing app built with React.js
 
 ## Installation
